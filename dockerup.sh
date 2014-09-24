@@ -104,21 +104,6 @@ do
         fi
 done
 
-#echo -e "${BRedTerm} Would you like to build a fresh wordpress container image? (y/Y) or use an exiting image and run a new instance (n/N) ${NTerm}"
-#        read -e CONFIRM
-#
-#        echo -e "\n"
-#
-#        if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
-#               echo -e "${BRedTerm} To build the container issue the following: ${BGreenTerm} docker build -t appcontainers/wordpress . ${NTerm}"
-#		echo -e "\n"
-#
-#		echo -e " ${BYellowTerm} Building Wordpress Container... ${NTerm}"
-#		docker build -t appcontainers/wordpress .
-#		echo -e "${BGreenTerm} [Complete] ${NTerm}"
-#		echo -e "\n"
-#        fi
-
 echo -e "${BYellowTerm} Starting Wordpress Container... ${NTerm}"
 docker run -d -i -t \
 --name $RUNNAME \
