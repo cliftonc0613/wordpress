@@ -1,6 +1,7 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Set Colors we will use for different prompts
+
 # Yellow and Bold Yellow
 YellowTerm='\e[0;33m'
 BYellowTerm='\e[1;33m'
@@ -24,7 +25,8 @@ NTerm='\e[0m'
 echo -e "\n"
 
 # Message to user
-echo -e "${BYellowTerm} Wordpress Container Configuration Script  ${NTerm}"
+echo -e "${BYellowTerm} Wordpress Container Configuration Script ${NTerm}"
+echo -e "${BGreenTerm} You can hit enter on any of the following fields to accept the default values. ${NTerm}"
 
 # Set variable for the while loop
 LOOP="true"
@@ -32,71 +34,82 @@ LOOP="true"
 # While the LOOP variable is true, loop through the questions below. This will allow for a re-think
 while [ "$LOOP" = "true" ] 
 do
-        echo -e "${BRedTerm} Please input the wordpress instance FQDN (example.com) [without the www]: ${NTerm}"
+        echo -e "${GreyTerm} Wordpress instance domain name (without the www) {example.com} : ${RedTerm} [default:wordpress.local] ${NTerm}"
         read -e FQDN
+		if [ "$FQDN" = "" ]; then
+                        FQDN="wordpress.local"
+                fi
         echo -e "\n"
 
-	echo -e "${BRedTerm} Please input a root MySQL password: ${NTerm}"
+	echo -e "${GreyTerm} Root MySQL password: ${RedTerm} [default:P@ssw0rd] ${NTerm}"
         read -e MYSQLPASS
-        echo -e "\n"
+        	if [ "$MYSQLPASS" = "" ]; then
+                        MYSQLPASS="P@ssw0rd"
+                fi
+	echo -e "\n"
 	
-	echo -e "${BRedTerm} Please type the Database Server host name or IP where the wordpress db will reside [default:localhost]:  ${NTerm}"
+	echo -e "${GreyTerm} Database Server host name or IP address where the Wordpress database will reside: ${RedTerm} [default:localhost] ${NTerm}"
         read -e DBHOST
                 if [ "$DBHOST" = "" ]; then
                         DBHOST="localhost"
                 fi
         echo -e "\n"
 
-	echo -e "${BRedTerm} Please select a name for mysql wordpress database [default:wordpress]:  ${NTerm}"
+	echo -e "${GreyTerm} MySQL Wordpress database name: ${RedTerm} [default:wordpress] ${NTerm}"
         read -e DATABASE
 		if [ "$DATABASE" = "" ]; then
 			DATABASE="wordpress"
 		fi
         echo -e "\n"
 
-        echo -e "${BRedTerm} Please type a mysql user name that wordpress will use to connect to the wordpress database: ${NTerm}"
-        read -e WPUSER
-        echo -e "\n"
+        echo -e "${GreyTerm} MySQL Username that Wordpress will use to connect to the Wordpress database: ${RedTerm} [default:admin] ${NTerm}"
+        read -e USER
+        	if [ "$USER" = "" ]; then
+                        USER="admin"
+                fi
+	echo -e "\n"
 
-	echo -e "${BRedTerm} Please type a password for the new mysql wordpress database user: ${NTerm}"
-        read -e WPPASS
-        echo -e "\n"
+	echo -e "${GreyTerm} Password for the new MySQL Wordpress database user: ${RedTerm} [default:P@ssw0rd] ${NTerm}"
+        read -e USERPASS
+        	if [ "$USERPASS" = "" ]; then
+                        USERPASS="P@ssw0rd"
+                fi
+	echo -e "\n"
 
-	echo -e "${BRedTerm} Please type a phrase, any phrase to be used for wordpress auth cookies or press enter to use the defaults ${NTerm}"
+	echo -e "${GreyTerm} Phrase to be used for Wordpress auth cookies: ${RedTerm} [default:Check...] ${NTerm}"
         read -e WPKEY
-        echo -e "\n"
 		if [ "$WPKEY" = "" ]; then
                         WPKEY="Check us out at www.appcontainers.com"
                 fi
+        echo -e "\n"
 
-	echo -e "${BRedTerm} Please name for the container (specified at docker run time): [default:wordpress1] ${NTerm}"
+	echo -e "${RedTerm} Container Name (specified at docker run time): ${RedTerm} [default:wordpress] ${NTerm}"
         read -e RUNNAME
-        echo -e "\n"
 		if [ "$RUNNAME" = "" ]; then
-                        RUNNAME="wordpress1"
+                        RUNNAME="wordpress"
                 fi
-
-	echo -e "${BRedTerm} Please the host port that you would like to use for the wordpress container: [default:80] ${NTerm}"
-        read -e PORT
         echo -e "\n"
+
+	echo -e "${GreyTerm} Wordpress container Host TCP Port: ${RedTerm} [default:80] ${NTerm}"
+        read -e PORT
                 if [ "$PORT" = "" ]; then
                         PORT="80"
                 fi
+        echo -e "\n"
 
-        echo -e "${BRedTerm} You entered the following information: ${Nterm}"
+        echo -e "${BYellowTerm} You entered the following information: ${Nterm}"
 
-	echo -e "${BYellowTerm} MySQL Host:			${BGreenTerm} \"$DBHOST\" ${NTerm}"
-	echo -e "${BYellowTerm} MySQL Root Password:    	${BGreenTerm} \"$MYSQLPASS\" ${NTerm}"
-        echo -e "${BYellowTerm} Wordpress Database Name:    	${BGreenTerm} \"$DATABASE\" ${NTerm}"
-	echo -e "${BYellowTerm} Wordpress User:    		${BGreenTerm} \"$WPUSER\" ${NTerm}"
-	echo -e "${BYellowTerm} Wordpress User Password:	${BGreenTerm} \"$WPPASS\" ${NTerm}"
-	echo -e "${BYellowTerm} Wordpress Cookie Auth Phrase:	${BGreenTerm} \"$WPKEY\" ${NTerm}"
-	echo -e "${BYellowTerm} Wordpress Container Name:   	${BGreenTerm} \"$RUNNAME\" ${NTerm}"
-	echo -e "${BYellowTerm} Wordpress Container Port:	${BGreenTerm} \"$PORT\" ${NTerm}"	
+	echo -e "${GreyTerm} MySQL Host:                       ${GreenTerm} \"$DBHOST\" ${NTerm}"
+	echo -e "${GreyTerm} MySQL Root Password:              ${GreenTerm} \"$MYSQLPASS\" ${NTerm}"
+        echo -e "${GreyTerm} Wordpress Database Name:          ${GreenTerm} \"$DATABASE\" ${NTerm}"
+	echo -e "${GreyTerm} Wordpress User:                   ${GreenTerm} \"$USER\" ${NTerm}"
+	echo -e "${GreyTerm} Wordpress User Password:          ${GreenTerm} \"$USERPASS\" ${NTerm}"
+	echo -e "${GreyTerm} Wordpress Cookie Auth Phrase:     ${GreenTerm} \"$WPKEY\" ${NTerm}"
+	echo -e "${GreyTerm} Wordpress Container Name:         ${GreenTerm} \"$RUNNAME\" ${NTerm}"
+	echo -e "${GreyTerm} Wordpress Container Port:         ${GreenTerm} \"$PORT\" ${NTerm}"	
 
         echo -e "${BRedTerm} Is this Information correct? (y/n) ${NTerm}"
         read -e CONFIRM
-
         echo -e "\n"
 
         if [ "$CONFIRM" = "y" ] || [ "$CONFIRM" = "Y" ]; then
@@ -109,19 +122,21 @@ docker run -d -i -t \
 --name $RUNNAME \
 -p $PORT:80 \
 -e "APP_NAME=$FQDN" \
--e "APACHE_SRVALIAS=$FQDN localhost" \
+-e "APACHE_SVRALIAS=$FQDN localhost" \
 -e "MYSQL_HOST=$DBHOST" \
 -e "MYSQL_PASS=$MYSQLPASS" \
 -e "MYSQL_DB=$DATABASE" \
--e "WP_USER=$WPUSER" \
--e "WP_PASS=$WPPASS" \
+-e "APP_USER=$USER" \
+-e "APP_PASS=$USERPASS" \
 -e "WP_KEY=$WPKEY" \
 appcontainers/wordpress
 
 echo -e "${BGreenTerm} [Complete] ${NTerm}"
 echo -e "\n"
+echo -e "\n"
 
-echo "Scanning for Boot2Docker Path"
+echo -e "Scanning for Boot2Docker Path"
+sleep 1
 B2D=`which boot2docker`
 
 if [[ $B2D != "" ]]
@@ -134,17 +149,21 @@ else
 fi
 
 echo -e "\n"
+echo -e "\n"
+sleep 1
 
 # Adding Host File Entry (Linux and OSX Only)
 echo -e "${BRedTerm} Be sure to add the following host file entry to your machine (/etc/hosts, C:/Windows/System32/Drivers/etc/hosts) ${NTerm}"
 echo "$DOCKERIP          $FQDN"
 echo -e "\n"
+echo -e "\n"
+sleep 1
 
 echo -e "${BYellowTerm} You can now access the Wordpress install by opening a browser and accessing the following IP via a browser ${NTerm}"
 
 # Display the open URL
 URL="http://$DOCKERIP:$PORT"
-echo $URL
+echo -e $URL
 
 # Chill for a minute to let the container load then open it up
 sleep 5
